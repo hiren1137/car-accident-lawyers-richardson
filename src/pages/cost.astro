@@ -1,0 +1,214 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQ from "../components/FAQ.astro";
+import { getCanonicalUrl } from "../utils/seo";
+
+const title = "Car Accident Lawyer Costs | Fee Guide - Richardson, TX";
+const description =
+    "Understand car accident lawyer costs in Richardson, Texas. Learn about contingency fees, typical percentages, and what to expect when hiring an attorney.";
+const canonical = getCanonicalUrl("/cost/");
+
+const costFaqs = [
+    {
+        question: "What is a contingency fee?",
+        answer: "A contingency fee means you pay your lawyer only if you win your case. The attorney receives a percentage of your settlement or court award. If you don't win, you typically owe nothing for attorney fees. This arrangement makes legal representation accessible to accident victims who might not afford hourly rates.",
+    },
+    {
+        question: "What percentage do car accident lawyers charge in Texas?",
+        answer: "Most Texas car accident lawyers charge between 33% and 40% of the final settlement or verdict. The percentage may vary based on case complexity and whether the case goes to trial. Typically, cases that settle before filing suit may have lower percentages (around 33%), while cases that go to trial may be at the higher end (40%).",
+    },
+    {
+        question: "Are there any upfront costs?",
+        answer: "Most car accident lawyers in Richardson don't require upfront payments for their fees. However, some may ask for a small retainer or payment for initial case expenses like filing fees, medical record requests, or expert witness fees. Always clarify this during your initial consultation.",
+    },
+    {
+        question: "What expenses are separate from attorney fees?",
+        answer: 'Case expenses (or "costs") are typically separate from attorney fees and may include: court filing fees, expert witness fees, medical record requests, accident reconstruction, deposition costs, and investigation expenses. These are usually deducted from your settlement in addition to attorney fees.',
+    },
+    {
+        question: "How is my settlement divided?",
+        answer: "A typical settlement division: First, case expenses are deducted. Then, the attorney's contingency fee is calculated from the remaining amount. Finally, any medical liens or bills are paid. The remainder goes to you. Your attorney should provide a clear settlement breakdown before you sign any documents.",
+    },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+    <section
+        class="bg-gray-900 text-white py-12"
+    >
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                Car Accident Lawyer Costs - Richardson, TX
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Understanding attorney fees and what to expect
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="prose-content mb-12">
+            <p class="text-lg">
+                One of the most common concerns after a car accident is
+                affording legal representation. The good news is that most <a
+                    href="/lawyers/">car accident lawyers in Richardson</a
+                > work on contingency, meaning you don't pay unless you win.
+            </p>
+
+            <h2>How Contingency Fees Work</h2>
+
+            <p>
+                The contingency fee model aligns your attorney's interests with
+                yours—they only get paid when you get compensated. This
+                arrangement has several benefits:
+            </p>
+
+            <ul>
+                <li><strong>No upfront costs</strong> for attorney fees</li>
+                <li><strong>No hourly billing</strong> to worry about</li>
+                <li>
+                    <strong>Motivated representation</strong> since your lawyer's
+                    payment depends on results
+                </li>
+                <li>
+                    <strong>Access to justice</strong> regardless of your current
+                    financial situation
+                </li>
+            </ul>
+
+            <h2>Typical Fee Structure</h2>
+
+            <p>
+                In Richardson and throughout Texas, contingency fees typically
+                range from 33% to 40% of your recovery:
+            </p>
+
+            <div class="bg-gray-50 rounded-lg p-6 my-6">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="pb-3 font-semibold text-gray-900"
+                                >Stage of Case</th
+                            >
+                            <th class="pb-3 font-semibold text-gray-900"
+                                >Typical Fee</th
+                            >
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-3">Pre-litigation settlement</td>
+                            <td class="py-3">33% (one-third)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">After lawsuit is filed</td>
+                            <td class="py-3">33% - 40%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">During trial</td>
+                            <td class="py-3">40%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">On appeal</td>
+                            <td class="py-3">40% or higher</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Example Settlement Breakdown</h2>
+
+            <p>Here's how a typical $100,000 settlement might be divided:</p>
+
+            <div class="bg-gray-100 rounded-lg p-6 my-6">
+                <ul class="space-y-2 text-gray-800">
+                    <li><strong>Gross Settlement:</strong> $100,000</li>
+                    <li>
+                        <strong>Case Expenses:</strong> -$5,000 (filing fees, experts,
+                        etc.)
+                    </li>
+                    <li>
+                        <strong>Attorney Fee (33% of $95,000):</strong> -$31,350
+                    </li>
+                    <li><strong>Medical Liens:</strong> -$15,000</li>
+                    <li class="pt-2 border-t border-gray-200">
+                        <strong>Your Take-Home:</strong> $48,650
+                    </li>
+                </ul>
+            </div>
+
+            <p>
+                <em
+                    >This is a simplified example. Actual divisions vary based
+                    on your fee agreement, case expenses, and whether you have
+                    medical liens or subrogation claims.</em
+                >
+            </p>
+
+            <h2>What to Ask During Your Consultation</h2>
+
+            <p>
+                When meeting with a <a href="/best/"
+                    >Richardson car accident lawyer</a
+                >, ask these important questions:
+            </p>
+
+            <ul>
+                <li>What is your contingency fee percentage?</li>
+                <li>Does the percentage change if the case goes to trial?</li>
+                <li>What case expenses should I expect?</li>
+                <li>
+                    Do you advance case costs, or do I pay them as they arise?
+                </li>
+                <li>How are expenses deducted from my settlement?</li>
+                <li>Will you provide a written fee agreement?</li>
+            </ul>
+
+            <h2>Red Flags to Watch For</h2>
+
+            <p>Be cautious of attorneys who:</p>
+
+            <ul>
+                <li>Refuse to put their fee agreement in writing</li>
+                <li>
+                    Charge significantly higher than 40% without clear
+                    justification
+                </li>
+                <li>Pressure you to sign before you've read the agreement</li>
+                <li>Are unclear about how expenses will be handled</li>
+            </ul>
+        </div>
+
+        <!-- Cost FAQs -->
+        <div class="mb-12">
+            <h2 class="section-heading">
+                Frequently Asked Questions About Costs
+            </h2>
+            <FAQ items={costFaqs} />
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                Ready to Find an Attorney?
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Browse our directory of Richardson car accident lawyers. Most
+                offer free consultations where you can discuss fees and get
+                answers to your questions.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="/lawyers/" class="btn-primary">Browse Directory</a>
+                <a href="/best/" class="btn-secondary">View Top Rated</a>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <a
+                href="/faq/"
+                class="text-gray-900 hover:text-gray-700 font-medium"
+            >
+                Have more questions? View all FAQs →
+            </a>
+        </div>
+    </div>
+</BaseLayout>

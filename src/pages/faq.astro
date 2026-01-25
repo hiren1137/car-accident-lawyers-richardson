@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQ from "../components/FAQ.astro";
+import { getCanonicalUrl } from "../utils/seo";
+
+const title = "FAQ - Car Accident Lawyers | Common Questions - Richardson, TX";
+const description =
+    "Get answers to common questions about car accident lawyers in Richardson, TX. Learn about hiring an attorney, costs, timelines, and what to expect.";
+const canonical = getCanonicalUrl("/faq/");
+
+const faqCategories = [
+    {
+        title: "Finding a Lawyer",
+        items: [
+            {
+                question: "How do I choose the right car accident lawyer?",
+                answer: "Look for an attorney with experience in car accident cases, positive client reviews, and clear communication. Schedule consultations with 2-3 lawyers to compare their approach. Ask about their track record, fee structure, and how they'll handle your specific case. A good lawyer will explain your options without pressuring you to hire them immediately.",
+            },
+            {
+                question: "Should I hire a lawyer for a minor car accident?",
+                answer: "For truly minor accidents with no injuries and minimal property damage, you might handle the claim yourself. However, if you have any injuries (even ones that seem minor at first), significant vehicle damage, or issues determining fault, consulting with a lawyer is recommended. Many injuries don't become apparent until days or weeks later, and once you settle, you can't reopen your claim.",
+            },
+            {
+                question:
+                    "What's the difference between a personal injury lawyer and a car accident lawyer?",
+                answer: "Car accident lawyers are personal injury lawyers who focus specifically on vehicle collision cases. While all car accident lawyers handle personal injury cases, not all personal injury lawyers have extensive car accident experience. For car accident cases, look for attorneys who specifically mention auto accidents, vehicle collisions, or motor vehicle accidents as practice areas.",
+            },
+        ],
+    },
+    {
+        title: "Costs & Fees",
+        items: [
+            {
+                question: "How much does a car accident lawyer cost?",
+                answer: "Most car accident lawyers work on contingency, meaning you pay nothing upfront and they take a percentage (typically 33-40%) of your settlement. If you don't win, you usually owe no attorney fees. Some expenses like filing fees or expert witnesses may be handled differently—always clarify this during your consultation. Learn more in our <a href='/cost/'>cost guide</a>.",
+            },
+            {
+                question: "Will I have to pay if we lose the case?",
+                answer: "Under most contingency fee agreements, you won't owe attorney fees if you don't win. However, you should clarify how case expenses (court fees, expert witnesses, etc.) are handled. Some lawyers absorb these costs if you lose, while others may still require payment of expenses. Get this in writing before signing a fee agreement.",
+            },
+        ],
+    },
+    {
+        title: "The Legal Process",
+        items: [
+            {
+                question: "How long does a car accident case take in Texas?",
+                answer: "Simple cases may settle in 3-6 months. Complex cases or those that go to trial can take 1-3 years or more. Factors affecting timeline include: severity of injuries, whether fault is disputed, the insurance company's cooperation, need for ongoing medical treatment, and court schedules if litigation is necessary.",
+            },
+            {
+                question:
+                    "What is the statute of limitations for car accidents in Texas?",
+                answer: "In Texas, you generally have 2 years from the date of the accident to file a personal injury lawsuit. However, there are exceptions, and waiting too long can harm your case even if you're within the deadline. Evidence disappears, witnesses forget details, and insurance companies may become more difficult. Contact a lawyer as soon as possible after your accident.",
+            },
+            {
+                question: "What should I do immediately after a car accident?",
+                answer: "1) Ensure safety and call 911 if anyone is injured. 2) Exchange information with other drivers. 3) Document the scene with photos. 4) Get witness contact information. 5) Seek medical attention, even for minor symptoms. 6) Report the accident to your insurance. 7) Contact a lawyer before giving recorded statements to the other driver's insurance company.",
+            },
+            {
+                question:
+                    "Should I talk to the other driver's insurance company?",
+                answer: "Be very careful when speaking with the other driver's insurance company. They may try to get you to admit fault or accept a low settlement. It's best to consult with a lawyer before giving any recorded statements. You can politely decline to give a statement, saying you need to consult with an attorney first.",
+            },
+        ],
+    },
+    {
+        title: "Compensation & Settlements",
+        items: [
+            {
+                question:
+                    "What compensation can I receive after a car accident?",
+                answer: "Depending on your case, you may be entitled to: medical expenses (past and future), lost wages, diminished earning capacity, property damage, pain and suffering, mental anguish, and in some cases, punitive damages. The specific compensation depends on the severity of your injuries, who was at fault, and the insurance coverage available.",
+            },
+            {
+                question: "How is a car accident settlement calculated?",
+                answer: "Settlements consider: total medical expenses, future medical needs, lost income, future earning capacity, property damage, pain and suffering, and comparative fault. There's no exact formula—experienced lawyers know how to value cases based on similar verdicts and settlements in the Richardson area. Be wary of anyone who promises a specific dollar amount before fully evaluating your case.",
+            },
+            {
+                question:
+                    "Should I accept the insurance company's first offer?",
+                answer: "Usually, no. First offers are typically much lower than what your claim is actually worth. Insurance companies make these initial low offers hoping you'll accept quickly. A lawyer can evaluate whether an offer is fair and negotiate on your behalf. Remember: once you accept a settlement, you cannot ask for more money later—even if your injuries turn out to be worse than expected.",
+            },
+        ],
+    },
+];
+
+// Generate FAQPage schema for all questions
+const allFaqs = faqCategories.flatMap((cat) => cat.items);
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: allFaqs.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer.replace(/<[^>]*>/g, ""), // Strip HTML for schema
+        },
+    })),
+};
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    schema={faqSchema}
+>
+    <section
+        class="bg-gray-900 text-white py-12"
+    >
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                Frequently Asked Questions
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Common questions about car accident lawyers in Richardson, TX
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="prose-content mb-8">
+            <p>
+                Have questions about hiring a car accident lawyer in Richardson?
+                We've compiled answers to the most common questions we receive.
+                If you don't find what you're looking for, feel free to <a
+                    href="/contact/">contact us</a
+                >.
+            </p>
+        </div>
+
+        <div class="space-y-12">
+            {
+                faqCategories.map((category) => (
+                    <section>
+                        <h2 class="section-heading">{category.title}</h2>
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                            <FAQ items={category.items} />
+                        </div>
+                    </section>
+                ))
+            }
+        </div>
+
+        <div class="mt-12 bg-gray-100 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                Still Have Questions?
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Browse our <a
+                    href="/lawyers/"
+                    class="text-gray-900 hover:text-gray-700"
+                    >lawyer directory</a
+                > and contact attorneys directly. Most offer free consultations where
+                you can get personalized answers.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="/lawyers/" class="btn-primary">Find a Lawyer</a>
+                <a href="/contact/" class="btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

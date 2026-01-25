@@ -1,0 +1,333 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LawyerCard from "../../components/LawyerCard.astro";
+import {
+    getCanonicalUrl,
+    sortLawyersByPopularity,
+    SITE_URL,
+} from "../../utils/seo";
+import type { Lawyer } from "../../utils/seo";
+
+import lawyersData from "../../data/lawyers.json";
+
+const lawyers = lawyersData as Lawyer[];
+const sortedLawyers = sortLawyersByPopularity(lawyers);
+
+const title =
+    "Car Accident Lawyers Directory | Find an Attorney - Richardson, TX";
+const description =
+    "Browse our comprehensive directory of car accident lawyers in Richardson, Texas. Filter by rating, find attorneys with websites, and compare reviews to find the right lawyer.";
+const canonical = getCanonicalUrl("/lawyers/");
+
+// ItemList schema for top 10 lawyers
+const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Car Accident Lawyers Directory - Richardson, TX",
+    description:
+        "Complete directory of car accident and personal injury lawyers in Richardson, Texas",
+    numberOfItems: Math.min(sortedLawyers.length, 10),
+    itemListElement: sortedLawyers.slice(0, 10).map((lawyer, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: lawyer.name,
+        url: `${SITE_URL}/lawyers/${lawyer.slug}/`,
+    })),
+};
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    schema={itemListSchema}
+>
+    <section class="bg-gray-900 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">
+                Car Accident Lawyers - Richardson, TX
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Browse {lawyers.length} attorneys serving the Richardson area
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Intro paragraph -->
+        <div
+            class="prose-content max-w-none mb-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100"
+        >
+            <p>
+                Welcome to the most comprehensive directory of car accident and
+                personal injury lawyers in Richardson, Texas. Whether you've
+                been injured in a collision on Central Expressway, Campbell
+                Road, or anywhere in the Richardson area, finding the right
+                legal representation is crucial for protecting your rights and
+                maximizing your compensation.
+            </p>
+            <p class="mb-0">
+                Use the filters below to narrow your search. Looking for the <a
+                    href="/best/">highest-rated attorneys</a
+                >? Need to understand <a href="/cost/"
+                    >lawyer costs and contingency fees</a
+                >? We've got you covered with detailed guides and direct contact
+                information for every listed attorney.
+            </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="lg:w-72 flex-shrink-0">
+                <div
+                    class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 sticky top-24"
+                >
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        Filter Lawyers
+                    </h2>
+
+                    <!-- Search -->
+                    <div class="mb-6">
+                        <label
+                            for="search-input"
+                            class="block text-sm font-medium text-gray-700 mb-2"
+                        >
+                            Search by Name
+                        </label>
+                        <input
+                            type="text"
+                            id="search-input"
+                            placeholder="Enter lawyer name..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
+                        />
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="mb-6">
+                        <span
+                            class="block text-sm font-medium text-gray-700 mb-2"
+                            >Minimum Rating</span
+                        >
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="0"
+                                    class="filter-checkbox"
+                                    checked
+                                />
+                                <span class="ml-2 text-sm text-gray-600"
+                                    >All ratings</span
+                                >
+                            </label>
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="4"
+                                    class="filter-checkbox"
+                                />
+                                <span class="ml-2 text-sm text-gray-600"
+                                    >4+ stars</span
+                                >
+                            </label>
+                            <label class="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="4.5"
+                                    class="filter-checkbox"
+                                />
+                                <span class="ml-2 text-sm text-gray-600"
+                                    >4.5+ stars</span
+                                >
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Additional Filters -->
+                    <div class="mb-6">
+                        <span
+                            class="block text-sm font-medium text-gray-700 mb-2"
+                            >Additional Filters</span
+                        >
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    id="filter-website"
+                                    class="filter-checkbox"
+                                />
+                                <span class="ml-2 text-sm text-gray-600"
+                                    >Has website</span
+                                >
+                            </label>
+                            <label class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    id="filter-phone"
+                                    class="filter-checkbox"
+                                />
+                                <span class="ml-2 text-sm text-gray-600"
+                                    >Has phone number</span
+                                >
+                            </label>
+                        </div>
+                    </div>
+
+                    <button
+                        id="clear-filters"
+                        class="w-full py-2 text-sm text-gray-700 hover:text-gray-900 font-medium"
+                    >
+                        Clear All Filters
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Lawyer Grid -->
+            <div class="flex-grow">
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-gray-600">
+                        Showing <span id="visible-count">{lawyers.length}</span> of
+                        {lawyers.length} lawyers
+                    </p>
+                </div>
+
+                <div
+                    id="lawyers-grid"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
+                    {
+                        sortedLawyers.map((lawyer) => (
+                            <div
+                                class="lawyer-item"
+                                data-name={lawyer.name.toLowerCase()}
+                                data-rating={lawyer.rating}
+                                data-has-website={
+                                    lawyer.website ? "true" : "false"
+                                }
+                                data-has-phone={lawyer.phone ? "true" : "false"}
+                            >
+                                <LawyerCard lawyer={lawyer} />
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div id="no-results" class="hidden text-center py-12">
+                    <svg
+                        class="w-16 h-16 mx-auto text-gray-300 mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                    <p class="text-gray-500 text-lg">
+                        No lawyers match your filters
+                    </p>
+                    <button
+                        id="reset-from-empty"
+                        class="mt-4 text-gray-700 hover:text-gray-900 font-medium"
+                    >
+                        Clear filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<script>
+    const searchInput = document.getElementById(
+        "search-input",
+    ) as HTMLInputElement;
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    const websiteFilter = document.getElementById(
+        "filter-website",
+    ) as HTMLInputElement;
+    const phoneFilter = document.getElementById(
+        "filter-phone",
+    ) as HTMLInputElement;
+    const clearFiltersBtn = document.getElementById("clear-filters");
+    const resetFromEmptyBtn = document.getElementById("reset-from-empty");
+    const lawyerItems = document.querySelectorAll(".lawyer-item");
+    const visibleCount = document.getElementById("visible-count");
+    const noResults = document.getElementById("no-results");
+    const lawyersGrid = document.getElementById("lawyers-grid");
+
+    function filterLawyers() {
+        const searchTerm = searchInput?.value.toLowerCase() || "";
+        const selectedRating = document.querySelector(
+            'input[name="rating"]:checked',
+        ) as HTMLInputElement;
+        const minRating = parseFloat(selectedRating?.value || "0");
+        const requireWebsite = websiteFilter?.checked || false;
+        const requirePhone = phoneFilter?.checked || false;
+
+        let visibleItems = 0;
+
+        lawyerItems.forEach((item) => {
+            const el = item as HTMLElement;
+            const name = el.dataset.name || "";
+            const rating = parseFloat(el.dataset.rating || "0");
+            const hasWebsite = el.dataset.hasWebsite === "true";
+            const hasPhone = el.dataset.hasPhone === "true";
+
+            const matchesSearch = name.includes(searchTerm);
+            const matchesRating = rating >= minRating;
+            const matchesWebsite = !requireWebsite || hasWebsite;
+            const matchesPhone = !requirePhone || hasPhone;
+
+            if (
+                matchesSearch &&
+                matchesRating &&
+                matchesWebsite &&
+                matchesPhone
+            ) {
+                el.classList.remove("hidden");
+                visibleItems++;
+            } else {
+                el.classList.add("hidden");
+            }
+        });
+
+        if (visibleCount) {
+            visibleCount.textContent = String(visibleItems);
+        }
+
+        if (visibleItems === 0) {
+            noResults?.classList.remove("hidden");
+            lawyersGrid?.classList.add("hidden");
+        } else {
+            noResults?.classList.add("hidden");
+            lawyersGrid?.classList.remove("hidden");
+        }
+    }
+
+    function clearFilters() {
+        if (searchInput) searchInput.value = "";
+        const allRating = document.querySelector(
+            'input[name="rating"][value="0"]',
+        ) as HTMLInputElement;
+        if (allRating) allRating.checked = true;
+        if (websiteFilter) websiteFilter.checked = false;
+        if (phoneFilter) phoneFilter.checked = false;
+        filterLawyers();
+    }
+
+    searchInput?.addEventListener("input", filterLawyers);
+    ratingInputs.forEach((input) =>
+        input.addEventListener("change", filterLawyers),
+    );
+    websiteFilter?.addEventListener("change", filterLawyers);
+    phoneFilter?.addEventListener("change", filterLawyers);
+    clearFiltersBtn?.addEventListener("click", clearFilters);
+    resetFromEmptyBtn?.addEventListener("click", clearFilters);
+</script>

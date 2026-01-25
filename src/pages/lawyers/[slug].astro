@@ -1,0 +1,530 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import SimilarLawyers from "../../components/SimilarLawyers.astro";
+import {
+    getCanonicalUrl,
+    generateStars,
+    formatPhoneForTel,
+    formatRating,
+    formatReviewCount,
+    SITE_URL,
+} from "../../utils/seo";
+import type { Lawyer } from "../../utils/seo";
+
+import lawyersData from "../../data/lawyers.json";
+
+const lawyers = lawyersData as Lawyer[];
+
+export async function getStaticPaths() {
+    const lawyersData = await import("../../data/lawyers.json");
+    const lawyers = lawyersData.default as Lawyer[];
+
+    return lawyers.map((lawyer) => ({
+        params: { slug: lawyer.slug },
+        props: { lawyer },
+    }));
+}
+
+interface Props {
+    lawyer: Lawyer;
+}
+
+const { lawyer } = Astro.props;
+
+const title = `${lawyer.name} | Car Accident Lawyer in Richardson, TX`;
+const description = `Contact ${lawyer.name} for car accident and personal injury legal services in Richardson, TX. ${lawyer.reviewsCount} reviews, ${lawyer.rating} star rating. ${lawyer.address}`;
+const canonical = getCanonicalUrl(`/lawyers/${lawyer.slug}/`);
+
+const telLink = formatPhoneForTel(lawyer.phone);
+const ratingDisplay = formatRating(lawyer.rating);
+const reviewsDisplay = formatReviewCount(lawyer.reviewsCount);
+
+// Format hours for display
+function formatHours(
+    hours: Record<string, string[]> | null,
+): { day: string; hours: string }[] {
+    if (!hours) return [];
+    const dayOrder = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    ];
+    return dayOrder.map((day) => ({
+        day,
+        hours: hours[day]?.join(", ") || "Closed",
+    }));
+}
+
+const formattedHours = formatHours(lawyer.hours);
+
+// Generate opening hours spec for schema
+function getOpeningHoursSpec(hours: Record<string, string[]> | null) {
+    if (!hours) return undefined;
+    const dayAbbrev: Record<string, string> = {
+        Monday: "Mo",
+        Tuesday: "Tu",
+        Wednesday: "We",
+        Thursday: "Th",
+        Friday: "Fr",
+        Saturday: "Sa",
+        Sunday: "Su",
+    };
+
+    const specs: any[] = [];
+    Object.entries(hours).forEach(([day, times]) => {
+        if (times[0] === "Closed") return;
+        if (times[0] === "Open 24 hours") {
+            specs.push({
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: dayAbbrev[day],
+                opens: "00:00",
+                closes: "23:59",
+            });
+            return;
+        }
+        // Parse simple time ranges
+        times.forEach((time) => {
+            const match = time.match(
+                /(\d+(?::\d+)?(?:AM|PM)?)-(\d+(?::\d+)?(?:AM|PM)?)/i,
+            );
+            if (match) {
+                specs.push({
+                    "@type": "OpeningHoursSpecification",
+                    dayOfWeek: dayAbbrev[day],
+                    opens: match[1],
+                    closes: match[2],
+                });
+            }
+        });
+    });
+    return specs.length > 0 ? specs : undefined;
+}
+
+// LegalService schema
+const lawyerSchema = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    name: lawyer.name,
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: lawyer.address,
+        addressLocality: "Richardson",
+        addressRegion: "TX",
+        addressCountry: "US",
+    },
+    ...(lawyer.phone && { telephone: lawyer.phone }),
+    ...(lawyer.website && { url: lawyer.website }),
+    ...(lawyer.rating &&
+        lawyer.reviewsCount && {
+            aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: lawyer.rating,
+                reviewCount: lawyer.reviewsCount,
+                bestRating: 5,
+                worstRating: 1,
+            },
+        }),
+    ...(lawyer.lat &&
+        lawyer.lng && {
+            geo: {
+                "@type": "GeoCoordinates",
+                latitude: lawyer.lat,
+                longitude: lawyer.lng,
+            },
+        }),
+    openingHoursSpecification: getOpeningHoursSpec(lawyer.hours),
+    priceRange: "$$",
+};
+
+const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Lawyer Directory", href: "/lawyers/" },
+    { label: lawyer.name, href: `/lawyers/${lawyer.slug}/` },
+];
+
+// Google Maps embed URL
+const mapsEmbedUrl =
+    lawyer.lat && lawyer.lng
+        ? `https://maps.google.com/maps?q=${lawyer.lat},${lawyer.lng}&z=15&output=embed`
+        : null;
+
+const mapsLinkUrl =
+    lawyer.lat && lawyer.lng
+        ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lawyer.address)}`
+        : lawyer.mapsUrl ||
+          `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lawyer.address)}`;
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    schema={lawyerSchema}
+>
+    <div class="bg-gray-50 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Breadcrumbs items={breadcrumbItems} />
+
+            <!-- Back to Directory Link (Top) -->
+            <a
+                href="/lawyers/"
+                class="inline-flex items-center text-gray-900 hover:text-gray-700 mb-6 font-medium"
+            >
+                <svg
+                    class="w-5 h-5 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to Directory
+            </a>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                        <h1
+                            class="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
+                        >
+                            {lawyer.name}
+                        </h1>
+
+                        <!-- Rating -->
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="stars text-2xl"
+                                >{generateStars(lawyer.rating)}</span
+                            >
+                            <span class="text-lg font-semibold text-gray-900"
+                                >{ratingDisplay}</span
+                            >
+                            <span class="text-gray-600"
+                                >({reviewsDisplay} reviews)</span
+                            >
+                        </div>
+
+                        <!-- Categories -->
+                        {
+                            lawyer.categories && (
+                                <div class="mb-6">
+                                    <span class="inline-block px-3 py-1 bg-gray-200 text-gray-800 text-sm font-medium rounded-full">
+                                        {lawyer.categories}
+                                    </span>
+                                    {lawyer.businessStatus ===
+                                        "OPERATIONAL" && (
+                                        <span class="inline-block ml-2 px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                                            Open for Business
+                                        </span>
+                                    )}
+                                </div>
+                            )
+                        }
+
+                        <!-- Contact Info -->
+                        <div class="space-y-4 mb-8">
+                            <!-- Address -->
+                            <div class="flex items-start gap-3">
+                                <svg
+                                    class="w-6 h-6 text-gray-400 flex-shrink-0 mt-0.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                    ></path>
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                    ></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-900">
+                                        {lawyer.address}
+                                    </p>
+                                    <a
+                                        href={mapsLinkUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-gray-900 hover:text-gray-700 text-sm"
+                                    >
+                                        View on Google Maps →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            {
+                                lawyer.phone && (
+                                    <div class="flex items-center gap-3">
+                                        <svg
+                                            class="w-6 h-6 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                            />
+                                        </svg>
+                                        <a
+                                            href={`tel:${telLink}`}
+                                            class="font-medium text-gray-900 hover:text-gray-700"
+                                        >
+                                            {lawyer.phone}
+                                        </a>
+                                    </div>
+                                )
+                            }
+
+                            <!-- Website -->
+                            {
+                                lawyer.website && (
+                                    <div class="flex items-center gap-3">
+                                        <svg
+                                            class="w-6 h-6 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                                            />
+                                        </svg>
+                                        <a
+                                            href={lawyer.website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="text-gray-900 hover:text-gray-700 font-medium"
+                                        >
+                                            Visit Website
+                                        </a>
+                                    </div>
+                                )
+                            }
+                        </div>
+
+                        <!-- Hours -->
+                        {
+                            formattedHours.length > 0 && (
+                                <div class="mb-8">
+                                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                                        Business Hours
+                                    </h2>
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <dl class="space-y-2">
+                                            {formattedHours.map(
+                                                ({ day, hours }) => (
+                                                    <div class="flex justify-between text-sm">
+                                                        <dt class="font-medium text-gray-600">
+                                                            {day}
+                                                        </dt>
+                                                        <dd class="text-gray-900">
+                                                            {hours}
+                                                        </dd>
+                                                    </div>
+                                                ),
+                                            )}
+                                        </dl>
+                                    </div>
+                                </div>
+                            )
+                        }
+
+                        <!-- Map -->
+                        {
+                            mapsEmbedUrl && (
+                                <div class="mb-8">
+                                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                                        Location
+                                    </h2>
+                                    <div class="aspect-video rounded-lg overflow-hidden">
+                                        <iframe
+                                            src={mapsEmbedUrl}
+                                            width="100%"
+                                            height="100%"
+                                            style="border:0;"
+                                            allowfullscreen=""
+                                            loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade"
+                                            title={`Map showing location of ${lawyer.name}`}
+                                        />
+                                    </div>
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <!-- Similar Lawyers -->
+                    <SimilarLawyers
+                        currentSlug={lawyer.slug}
+                        lawyers={lawyers}
+                    />
+
+                    <!-- Back to Directory Link (Bottom) -->
+                    <div class="mt-8">
+                        <a
+                            href="/lawyers/"
+                            class="inline-flex items-center text-gray-900 hover:text-gray-700 font-medium"
+                        >
+                            <svg
+                                class="w-5 h-5 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Back to Directory
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div
+                        class="bg-white rounded-xl shadow-md p-6 sticky top-24"
+                    >
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                            Contact This Lawyer
+                        </h2>
+
+                        {
+                            telLink ? (
+                                <a
+                                    href={`tel:${telLink}`}
+                                    class="btn-call w-full mb-4 text-lg"
+                                >
+                                    <svg
+                                        class="w-5 h-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                        />
+                                    </svg>
+                                    Call {lawyer.phone}
+                                </a>
+                            ) : (
+                                <p class="text-gray-500 text-sm mb-4">
+                                    Phone number not available
+                                </p>
+                            )
+                        }
+
+                        {
+                            lawyer.website && (
+                                <a
+                                    href={lawyer.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn-secondary w-full mb-4"
+                                >
+                                    Visit Website
+                                </a>
+                            )
+                        }
+
+                        <a
+                            href={mapsLinkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn-secondary w-full"
+                        >
+                            Get Directions
+                        </a>
+
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <h3 class="font-medium text-gray-900 mb-2">
+                                Quick Info
+                            </h3>
+                            <dl class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Rating</dt>
+                                    <dd class="font-medium text-gray-900">
+                                        {ratingDisplay} / 5
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Reviews</dt>
+                                    <dd class="font-medium text-gray-900">
+                                        {reviewsDisplay}
+                                    </dd>
+                                </div>
+                                {
+                                    lawyer.categories && (
+                                        <div class="flex justify-between">
+                                            <dt class="text-gray-600">
+                                                Category
+                                            </dt>
+                                            <dd class="font-medium text-gray-900 text-right">
+                                                {lawyer.categories}
+                                            </dd>
+                                        </div>
+                                    )
+                                }
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky Call Button -->
+    {
+        telLink && (
+            <div class="fixed bottom-4 left-4 right-4 z-50 lg:hidden">
+                <a
+                    href={`tel:${telLink}`}
+                    class="btn-call w-full text-lg shadow-lg"
+                >
+                    <svg
+                        class="w-5 h-5 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                    </svg>
+                    Call Now
+                </a>
+            </div>
+        )
+    }
+</BaseLayout>

@@ -1,0 +1,206 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCanonicalUrl } from "../utils/seo";
+
+const title = "Disclaimer | Car Accident Lawyer Richardson Directory";
+const description =
+    "Important disclaimer about our Richardson car accident lawyer directory. Understand that we provide information only, not legal advice or attorney recommendations.";
+const canonical = getCanonicalUrl("/disclaimer/");
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+    <section
+        class="bg-gradient-to-r from-gray-800 to-gray-700 text-white py-12"
+    >
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Disclaimer</h1>
+            <p class="text-gray-300">
+                Important information about our directory
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-6 mb-8">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg
+                        class="h-6 w-6 text-amber-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        ></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <p class="text-amber-800 font-medium">
+                        This website is a directory service providing
+                        information about attorneys. We are not a law firm and
+                        do not provide legal advice or representation.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="prose-content">
+            <h2>Directory Purpose</h2>
+
+            <p>
+                Car Accident Lawyer Richardson (caraccidentlawyerrichardson.com)
+                is an online directory that provides information about car
+                accident lawyers and personal injury attorneys serving the
+                Richardson, Texas area. Our purpose is to help users find and
+                compare attorneys; we do not endorse, recommend, or guarantee
+                any specific attorney or law firm.
+            </p>
+
+            <h2>Not Legal Advice</h2>
+
+            <p>
+                The information provided on this website is for general
+                informational purposes only and should not be construed as legal
+                advice. Every legal situation is unique, and the information
+                provided here may not apply to your specific circumstances.
+            </p>
+
+            <p>
+                <strong
+                    >If you need legal advice, you should consult directly with
+                    a qualified attorney</strong
+                > who can evaluate your specific situation. Do not rely on information
+                from this website as a substitute for professional legal counsel.
+            </p>
+
+            <h2>No Attorney-Client Relationship</h2>
+
+            <p>
+                Using this website or contacting us does not create an
+                attorney-client relationship. An attorney-client relationship is
+                only formed when you have signed an engagement letter or fee
+                agreement with an attorney.
+            </p>
+
+            <h2>Accuracy of Information</h2>
+
+            <p>
+                While we make reasonable efforts to ensure the accuracy of the
+                information on this website, we cannot guarantee that all
+                information is complete, accurate, or current. Attorney
+                information, including:
+            </p>
+
+            <ul>
+                <li>Contact details (phone numbers, addresses, websites)</li>
+                <li>Business hours</li>
+                <li>Ratings and reviews</li>
+                <li>Practice areas and specializations</li>
+                <li>Business status</li>
+            </ul>
+
+            <p>
+                ...may change without notice. We encourage you to verify all
+                information directly with the attorney before making any
+                decisions.
+            </p>
+
+            <h2>Third-Party Information</h2>
+
+            <p>
+                Much of the information in our directory is obtained from
+                third-party sources, including public records, business
+                listings, and review platforms. We do not independently verify
+                this information and are not responsible for its accuracy.
+            </p>
+
+            <h2>No Endorsement or Recommendation</h2>
+
+            <p>
+                Inclusion of an attorney in our directory does not constitute an
+                endorsement or recommendation. The order in which attorneys
+                appear, including in "top" or "best" lists, is based on publicly
+                available metrics such as review counts and ratings, not on our
+                evaluation of attorney quality or suitability for your case.
+            </p>
+
+            <p>
+                You are solely responsible for evaluating and selecting an
+                attorney. We recommend:
+            </p>
+
+            <ul>
+                <li>
+                    Consulting with multiple attorneys before making a decision
+                </li>
+                <li>Verifying attorney credentials and bar standing</li>
+                <li>Asking about relevant experience for your type of case</li>
+                <li>
+                    Understanding fee structures before signing any agreements
+                </li>
+                <li>Checking references and additional reviews</li>
+            </ul>
+
+            <h2>No Guarantee of Results</h2>
+
+            <p>
+                We make no guarantees or representations regarding any
+                attorney's ability to achieve a particular outcome in your case.
+                Past results do not guarantee future outcomes, and each legal
+                case is unique.
+            </p>
+
+            <h2>External Links</h2>
+
+            <p>
+                This website contains links to external websites, including
+                attorney websites, Google Maps, and other third-party services.
+                We are not responsible for the content, accuracy, or practices
+                of these external sites.
+            </p>
+
+            <h2>Limitation of Liability</h2>
+
+            <p>
+                To the fullest extent permitted by law, we disclaim all
+                liability for any damages arising from your use of this website
+                or reliance on the information provided, including but not
+                limited to direct, indirect, incidental, consequential, or
+                punitive damages.
+            </p>
+
+            <h2>Contact for Corrections</h2>
+
+            <p>
+                If you believe any information in our directory is inaccurate,
+                please <a href="/contact/">contact us</a>
+                and we will review and update the information as appropriate.
+            </p>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-200 flex flex-wrap gap-4">
+            <a
+                href="/terms/"
+                class="text-gray-900 hover:text-gray-700 font-medium"
+            >
+                Terms of Service
+            </a>
+            <a
+                href="/privacy-policy/"
+                class="text-gray-900 hover:text-gray-700 font-medium"
+            >
+                Privacy Policy
+            </a>
+            <a
+                href="/"
+                class="text-gray-900 hover:text-gray-700 font-medium"
+            >
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+</BaseLayout>

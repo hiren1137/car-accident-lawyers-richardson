@@ -1,0 +1,92 @@
+---
+export interface FAQItem {
+    question: string;
+    answer: string;
+}
+
+export interface Props {
+    items: FAQItem[];
+    generateSchema?: boolean;
+}
+
+const { items, generateSchema = false } = Astro.props;
+
+// Generate FAQPage schema if requested
+const faqSchema = generateSchema
+    ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: items.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+              },
+          })),
+      }
+    : null;
+---
+
+<div class="space-y-1">
+    {
+        items.map((item, index) => (
+            <div class="accordion-item" data-accordion-item>
+                <button
+                    type="button"
+                    class="accordion-header"
+                    aria-expanded="false"
+                    aria-controls={`faq-content-${index}`}
+                    id={`faq-header-${index}`}
+                >
+                    <span>{item.question}</span>
+                    <svg
+                        class="w-5 h-5 text-gray-500 transition-transform accordion-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 9l-7 7-7-7"
+                        />
+                    </svg>
+                </button>
+                <div
+                    class="accordion-content hidden"
+                    id={`faq-content-${index}`}
+                    aria-labelledby={`faq-header-${index}`}
+                >
+                    <p set:html={item.answer} />
+                </div>
+            </div>
+        ))
+    }
+</div>
+
+{
+    faqSchema && (
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(faqSchema)}
+        />
+    )
+}
+
+<script>
+    document.querySelectorAll("[data-accordion-item]").forEach((item) => {
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+        const icon = item.querySelector(".accordion-icon");
+
+        header?.addEventListener("click", () => {
+            const isExpanded = header.getAttribute("aria-expanded") === "true";
+
+            header.setAttribute("aria-expanded", String(!isExpanded));
+            content?.classList.toggle("hidden");
+            icon?.classList.toggle("rotate-180");
+        });
+    });
+</script>

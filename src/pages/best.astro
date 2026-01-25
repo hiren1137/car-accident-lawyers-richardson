@@ -1,0 +1,210 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+    getCanonicalUrl,
+    sortLawyersByPopularity,
+    generateStars,
+    SITE_URL,
+} from "../utils/seo";
+import type { Lawyer } from "../utils/seo";
+
+import lawyersData from "../data/lawyers.json";
+
+const lawyers = lawyersData as Lawyer[];
+
+// Get top 10 by rating and reviews
+const topLawyers = sortLawyersByPopularity(lawyers)
+    .filter((l) => l.rating >= 4.5)
+    .slice(0, 10);
+
+const title = "10 Best Car Accident Lawyers (2026) | Richardson, TX";
+const description =
+    "Our curated list of the best car accident lawyers in Richardson, Texas. These top-rated attorneys have exceptional reviews and proven track records.";
+const canonical = getCanonicalUrl("/best/");
+
+// ItemList schema
+const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Best Car Accident Lawyers - Richardson, TX",
+    description:
+        "Top-rated car accident and personal injury lawyers serving Richardson, Texas",
+    numberOfItems: topLawyers.length,
+    itemListElement: topLawyers.map((lawyer, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: lawyer.name,
+        url: `${SITE_URL}/lawyers/${lawyer.slug}/`,
+    })),
+};
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    schema={itemListSchema}
+>
+    <section
+        class="bg-gray-900 text-white py-12"
+    >
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                Best Car Accident Lawyers - Richardson, TX
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Our top picks for 2026, based on ratings and client reviews
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="prose-content mb-12">
+            <p>
+                When you're searching for legal representation after a car
+                accident, quality matters. We've compiled this list of the
+                <strong>best car accident lawyers in Richardson, Texas</strong> based
+                on client reviews, ratings, and professional reputation.
+            </p>
+
+            <h2>How We Selected These Attorneys</h2>
+
+            <p>Our selection criteria focuses on:</p>
+
+            <ul>
+                <li>
+                    <strong>Client Reviews:</strong> High volume of positive client
+                    feedback
+                </li>
+                <li><strong>Rating Score:</strong> Minimum 4.5-star rating</li>
+                <li>
+                    <strong>Experience:</strong> Established practices with proven
+                    track records
+                </li>
+                <li>
+                    <strong>Accessibility:</strong> Clear contact information and
+                    responsive service
+                </li>
+            </ul>
+
+            <p>
+                Each attorney below has demonstrated excellence in representing
+                car accident victims. For the complete list of all lawyers in
+                our directory, visit our <a href="/lawyers/"
+                    >full lawyer directory</a
+                >. If you're wondering about attorney fees, check our <a
+                    href="/cost/">cost guide</a
+                > for detailed information.
+            </p>
+        </div>
+
+        <!-- Top Lawyers List -->
+        <div class="space-y-6">
+            {
+                topLawyers.map((lawyer, index) => (
+                    <article class="card p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center text-xl font-bold">
+                                {index + 1}
+                            </div>
+                            <div class="flex-grow">
+                                <h2 class="text-xl font-bold text-gray-900 mb-2">
+                                    <a
+                                        href={`/lawyers/${lawyer.slug}/`}
+                                        class="hover:text-gray-700 transition-colors"
+                                    >
+                                        {lawyer.name}
+                                    </a>
+                                </h2>
+
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="stars text-lg">
+                                        {generateStars(lawyer.rating)}
+                                    </span>
+                                    <span class="font-semibold text-gray-900">
+                                        {lawyer.rating.toFixed(1)}
+                                    </span>
+                                    <span class="text-gray-600">
+                                        ({lawyer.reviewsCount} reviews)
+                                    </span>
+                                </div>
+
+                                <p class="text-gray-600 mb-3">
+                                    <svg
+                                        class="w-4 h-4 inline-block mr-1 text-gray-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                    </svg>
+                                    {lawyer.address}
+                                </p>
+
+                                {lawyer.categories && (
+                                    <span class="inline-block px-3 py-1 bg-gray-100 text-primary-700 text-sm font-medium rounded-full mb-3">
+                                        {lawyer.categories}
+                                    </span>
+                                )}
+
+                                <div class="mt-4">
+                                    <p class="text-gray-700 text-sm mb-3">
+                                        {index === 0 &&
+                                            "Our top pick based on the highest volume of positive client reviews. This firm has built an exceptional reputation for handling car accident cases in Richardson."}
+                                        {index === 1 &&
+                                            "A highly-rated firm known for personal attention and strong case results. Clients consistently praise their communication and dedication."}
+                                        {index === 2 &&
+                                            "Trusted by hundreds of Richardson residents for personal injury representation. Known for thorough case preparation and client advocacy."}
+                                        {index >= 3 &&
+                                            "An excellent choice with outstanding reviews from car accident clients in the Richardson area."}
+                                    </p>
+                                    <a
+                                        href={`/lawyers/${lawyer.slug}/`}
+                                        class="text-gray-900 hover:text-gray-700 font-medium"
+                                    >
+                                        View Full Profile →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+
+        <div class="mt-12 prose-content">
+            <h2>Ready to Choose?</h2>
+            <p>
+                All of these attorneys offer initial consultations, many free of
+                charge. We recommend contacting 2-3 lawyers to compare their
+                approach, communication style, and fee structures before making
+                your decision.
+            </p>
+            <p>
+                Have questions about finding the right lawyer? Check our <a
+                    href="/faq/">frequently asked questions</a
+                >
+                or <a href="/contact/">contact us</a> for assistance. Remember to
+                read our <a href="/disclaimer/">disclaimer</a>
+                regarding this directory.
+            </p>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+            <a href="/lawyers/" class="btn-primary">
+                View All {lawyers.length} Lawyers
+            </a>
+        </div>
+    </div>
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+import type { Lawyer } from "../utils/seo";
+import { getRandomLawyers, generateStars, formatRating } from "../utils/seo";
+
+export interface Props {
+    currentSlug: string;
+    lawyers: Lawyer[];
+    count?: number;
+}
+
+const { currentSlug, lawyers, count = 6 } = Astro.props;
+const similarLawyers = getRandomLawyers(lawyers, currentSlug, count);
+---
+
+<section class="mt-12">
+    <h2 class="section-heading">Similar Lawyers in Richardson</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {
+            similarLawyers.map((lawyer) => (
+                <a
+                    href={`/lawyers/${lawyer.slug}/`}
+                    class="card p-4 hover:bg-gray-50 transition-colors block"
+                >
+                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-1">
+                        {lawyer.name}
+                    </h3>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="stars">
+                            {generateStars(lawyer.rating)}
+                        </span>
+                        <span class="text-gray-600">
+                            {formatRating(lawyer.rating)}
+                        </span>
+                    </div>
+                    {lawyer.categories && (
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-1">
+                            {lawyer.categories}
+                        </p>
+                    )}
+                </a>
+            ))
+        }
+    </div>
+</section>

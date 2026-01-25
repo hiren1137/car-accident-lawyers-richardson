@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCanonicalUrl } from "../utils/seo";
+
+const title = "Contact Us | Car Accident Lawyer Richardson";
+const description =
+    "Get in touch with our team. We're here to help you navigate our Richardson car accident lawyer directory and answer your questions.";
+const canonical = getCanonicalUrl("/contact/");
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+    <section class="bg-gray-900 text-white py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Contact Us</h1>
+            <p class="text-gray-300 text-lg">We're here to help</p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="max-w-2xl mx-auto">
+            <!-- Contact Info -->
+            <div class="prose-content mb-8 text-center">
+                <h2>Get in Touch</h2>
+                <p class="text-lg">
+                    Have questions about our directory, suggestions for
+                    improvements, or need help navigating our resources? We'd
+                    love to hear from you.
+                </p>
+            </div>
+
+            <!-- Email Contact Card -->
+            <div
+                class="bg-white rounded-xl shadow-lg p-8 md:p-12 text-center mb-8 border border-gray-200"
+            >
+                <div
+                    class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6"
+                >
+                    <svg
+                        class="w-10 h-10 text-gray-900"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                    </svg>
+                </div>
+
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Email Us</h3>
+                <p class="text-gray-600 mb-6">
+                    Send us an email and we'll get back to you as soon as
+                    possible.
+                </p>
+
+                <a
+                    href="mailto:techjits.com@gmail.com"
+                    class="inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gray-900 rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 transition-all duration-200"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                    </svg>
+                    techjits.com@gmail.com
+                </a>
+
+                <p class="text-sm text-gray-500 mt-6">
+                    We typically respond within 24-48 hours
+                </p>
+            </div>
+
+            <!-- Important Note -->
+            <div class="p-6 bg-gray-100 border border-gray-200 rounded-lg">
+                <h3
+                    class="font-semibold text-gray-900 mb-2 flex items-center gap-2"
+                >
+                    <svg
+                        class="w-5 h-5 text-gray-700"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                    Important Note
+                </h3>
+                <p class="text-sm text-gray-700">
+                    We are a directory service, not a law firm. We cannot
+                    provide legal advice or represent you in legal matters. If
+                    you need legal assistance, please <a
+                        href="/lawyers/"
+                        class="text-gray-900 hover:text-gray-700 font-medium underline"
+                        >contact an attorney directly</a
+                    >
+                    from our directory.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-12 prose-content max-w-2xl mx-auto">
+            <h2>Helpful Resources</h2>
+            <p>Before reaching out, you might find answers in our resources:</p>
+            <ul>
+                <li>
+                    <a href="/faq/">Frequently Asked Questions</a> - Common questions
+                    about finding lawyers
+                </li>
+                <li>
+                    <a href="/cost/">Cost Guide</a> - Information about attorney fees
+                </li>
+                <li>
+                    <a href="/lawyers/">Lawyer Directory</a> - Browse and contact
+                    attorneys directly
+                </li>
+                <li>
+                    <a href="/disclaimer/">Disclaimer</a> - Important information
+                    about our service
+                </li>
+            </ul>
+        </div>
+    </div>
+</BaseLayout>

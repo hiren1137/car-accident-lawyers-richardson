@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCanonicalUrl } from "../utils/seo";
+
+const title = "About Our Richardson Car Accident Lawyer Directory";
+const description =
+    "Learn about our mission to help Richardson, TX residents find qualified car accident lawyers. We provide comprehensive attorney listings and helpful resources.";
+const canonical = getCanonicalUrl("/about/");
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+    <section
+        class="bg-gray-900 text-white py-12"
+    >
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                About Our Directory
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Helping Richardson residents find the right legal representation
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="prose-content">
+            <h2>Our Mission</h2>
+
+            <p>
+                Car Accident Lawyer Richardson was created with a simple goal:
+                to help accident victims in Richardson, Texas find qualified
+                legal representation quickly and easily. We understand that
+                after a car accident, you're dealing with enough stress without
+                having to navigate the maze of finding the right lawyer.
+            </p>
+
+            <h2>What We Offer</h2>
+
+            <p>
+                Our <a href="/lawyers/">directory</a> provides comprehensive listings
+                of car accident and personal injury attorneys serving the Richardson
+                area. Each listing includes:
+            </p>
+
+            <ul>
+                <li>Contact information and location</li>
+                <li>Client ratings and review counts</li>
+                <li>Business hours and practice areas</li>
+                <li>Direct links to attorney websites</li>
+                <li>Maps for easy navigation</li>
+            </ul>
+
+            <h2>Our Resources</h2>
+
+            <p>
+                Beyond our lawyer listings, we provide educational resources to
+                help you make informed decisions:
+            </p>
+
+            <ul>
+                <li>
+                    <a href="/best/">Best Lawyers Guide</a> - Our curated list of
+                    top-rated attorneys
+                </li>
+                <li>
+                    <a href="/cost/">Cost Guide</a> - Understanding attorney fees
+                    and contingency arrangements
+                </li>
+                <li>
+                    <a href="/faq/">FAQ Section</a> - Answers to common questions
+                    about car accident claims
+                </li>
+            </ul>
+
+            <h2>Our Commitment</h2>
+
+            <p>
+                We are committed to providing accurate, up-to-date information
+                to help Richardson residents. While we strive for accuracy, we
+                encourage you to verify information directly with attorneys and
+                conduct your own research before making legal decisions.
+            </p>
+
+            <p>
+                Please note that this directory is for informational purposes
+                only. We do not provide legal advice and are not a law firm. For
+                more details, please read our <a href="/disclaimer/"
+                    >full disclaimer</a
+                >.
+            </p>
+
+            <h2>Contact Us</h2>
+
+            <p>
+                Have questions, suggestions, or feedback about our directory?
+                We'd love to hear from you. Visit our <a href="/contact/"
+                    >contact page</a
+                > to get in touch.
+            </p>
+        </div>
+
+        <div class="mt-12 flex flex-wrap gap-4">
+            <a href="/lawyers/" class="btn-primary">Browse the Directory</a>
+            <a href="/contact/" class="btn-secondary">Contact Us</a>
+        </div>
+    </div>
+</BaseLayout>

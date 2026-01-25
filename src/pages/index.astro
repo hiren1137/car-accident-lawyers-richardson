@@ -1,0 +1,250 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LawyerCard from "../components/LawyerCard.astro";
+import FAQ from "../components/FAQ.astro";
+import {
+    getCanonicalUrl,
+    sortLawyersByPopularity,
+    SITE_URL,
+} from "../utils/seo";
+import type { Lawyer } from "../utils/seo";
+
+import lawyersData from "../data/lawyers.json";
+
+const lawyers = lawyersData as Lawyer[];
+const topLawyers = sortLawyersByPopularity(lawyers).slice(0, 6);
+
+const title = "Find Top Car Accident Lawyers | Richardson, TX";
+const description =
+    "Find the best car accident lawyers in Richardson, Texas. Compare ratings, read reviews, and contact experienced personal injury attorneys who can help with your case.";
+const canonical = getCanonicalUrl("/");
+
+const faqItems = [
+    {
+        question:
+            "How do I choose the right car accident lawyer in Richardson?",
+        answer: "Look for an attorney with experience in car accident and personal injury cases, strong client reviews, and a track record of successful settlements. Many Richardson attorneys offer free consultations, so you can discuss your case before committing. Consider their communication style, fee structure (most work on contingency), and local court experience.",
+    },
+    {
+        question: "How much does a car accident lawyer cost in Richardson, TX?",
+        answer: "Most car accident lawyers in Richardson work on a contingency fee basis, meaning you pay nothing upfront. They typically charge 33-40% of your settlement or verdict. If you don't win your case, you usually don't owe attorney fees. Always discuss fee structures during your initial consultation.",
+    },
+    {
+        question:
+            "When should I contact a car accident lawyer after an accident?",
+        answer: "Contact a lawyer as soon as possible after your accident, ideally within the first few days. Texas has a two-year statute of limitations for personal injury claims. Early legal representation helps preserve evidence, protects your rights when dealing with insurance companies, and ensures you don't miss important deadlines.",
+    },
+    {
+        question:
+            "What should I bring to my first meeting with a car accident lawyer?",
+        answer: "Bring your accident report, photos of the accident scene and injuries, medical records and bills, insurance information (yours and the other driver's), witness contact information, any correspondence with insurance companies, and a written timeline of events. The more documentation you provide, the better your attorney can evaluate your case.",
+    },
+    {
+        question: "Can I handle my car accident claim without a lawyer?",
+        answer: "While you can handle minor claims yourself, having a lawyer typically results in higher settlements. Attorneys understand the true value of claims, can negotiate effectively with insurance companies, and know how to build strong cases. For serious injuries, complex liability, or if fault is disputed, professional legal representation is strongly recommended.",
+    },
+];
+
+// ItemList schema for top lawyers
+const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Top Car Accident Lawyers - Richardson, TX",
+    description:
+        "Featured car accident and personal injury lawyers serving Richardson, Texas",
+    numberOfItems: topLawyers.length,
+    itemListElement: topLawyers.map((lawyer, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: lawyer.name,
+        url: `${SITE_URL}/lawyers/${lawyer.slug}/`,
+    })),
+};
+
+const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Car Accident Lawyer Richardson",
+    url: SITE_URL,
+    description: description,
+};
+---
+
+<BaseLayout
+    title={title}
+    description={description}
+    canonical={canonical}
+    schema={[itemListSchema, websiteSchema]}
+>
+    <!-- Hero Section with Background Image -->
+    <section
+        class="hero-section text-white py-20 md:py-32 min-h-[500px] flex items-center"
+    >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl">
+                <h1
+                    class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                >
+                    Car Accident Lawyers - Richardson, TX
+                </h1>
+                <p
+                    class="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed"
+                >
+                    Find experienced attorneys who can fight for the
+                    compensation you deserve after a car accident.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a
+                        href="/lawyers/"
+                        class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold bg-white text-gray-900 rounded-lg shadow-lg hover:bg-gray-100 transition-all duration-200"
+                    >
+                        Browse All Lawyers
+                    </a>
+                    <a
+                        href="/best/"
+                        class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-lg border-2 border-white text-white hover:bg-white/10 transition-all duration-200"
+                    >
+                        View Top Rated
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Content -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="prose-content">
+                <p class="text-lg leading-relaxed">
+                    If you've been injured in a car accident in Richardson,
+                    Texas, you're likely facing mounting medical bills, lost
+                    wages, and the stress of dealing with insurance companies.
+                    Finding the right legal representation can make all the
+                    difference in securing fair compensation for your injuries
+                    and losses.
+                </p>
+
+                <p>
+                    Our directory features a comprehensive listing of <a
+                        href="/lawyers/"
+                        >car accident lawyers and personal injury attorneys</a
+                    > serving the Richardson area. Each attorney profile includes
+                    ratings, reviews, contact information, and practice areas to help
+                    you make an informed decision about your legal representation.
+                </p>
+
+                <h2>Why You Need a Car Accident Lawyer</h2>
+
+                <p>
+                    Texas follows a modified comparative negligence rule,
+                    meaning your compensation may be reduced if you're found
+                    partially at fault. An experienced Richardson car accident
+                    lawyer understands these complexities and can help protect
+                    your rights while maximizing your potential recovery.
+                </p>
+
+                <p>
+                    Insurance companies have teams of adjusters and lawyers
+                    working to minimize payouts. Having a skilled attorney on
+                    your side levels the playing field. They can investigate
+                    your accident, gather evidence, negotiate with insurers, and
+                    if necessary, take your case to trial.
+                </p>
+
+                <h2>What to Expect from Your Attorney</h2>
+
+                <p>
+                    A quality <a href="/best/"
+                        >car accident lawyer in Richardson</a
+                    > will offer a free initial consultation to evaluate your case.
+                    Most work on contingency, so you won't pay attorney fees unless
+                    you win. Your lawyer should keep you informed throughout the process,
+                    explain your options clearly, and fight aggressively for the compensation
+                    you deserve.
+                </p>
+
+                <p>
+                    Understanding <a href="/cost/"
+                        >attorney costs and fee structures</a
+                    > is important when selecting representation. Our cost guide breaks
+                    down typical contingency percentages and what expenses you might
+                    encounter during your case.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Lawyers -->
+    <section class="py-12 md:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="section-heading">Top-Rated Richardson Lawyers</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    These attorneys have earned high ratings and numerous
+                    reviews from clients in the Richardson area.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {
+                    topLawyers.map((lawyer, index) => (
+                        <LawyerCard lawyer={lawyer} featured={index === 0} />
+                    ))
+                }
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="/lawyers/" class="btn-primary">
+                    View All {lawyers.length} Lawyers
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-heading text-center mb-8">
+                Frequently Asked Questions
+            </h2>
+
+            <FAQ items={faqItems} generateSchema={true} />
+
+            <div class="text-center mt-8">
+                <a
+                    href="/faq/"
+                    class="text-primary-900 hover:text-primary-700 font-medium"
+                >
+                    View All FAQs →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 md:py-16 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">
+                Ready to Find Your Attorney?
+            </h2>
+            <p class="text-gray-300 mb-8 text-lg">
+                Browse our complete directory of Richardson car accident lawyers
+                and connect with an attorney today.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a
+                    href="/lawyers/"
+                    class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold bg-white text-gray-900 rounded-lg shadow-lg hover:bg-gray-100 transition-all duration-200"
+                >
+                    Search the Directory
+                </a>
+                <a
+                    href="mailto:techjits.com@gmail.com"
+                    class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-lg border-2 border-white text-white hover:bg-white/10 transition-all duration-200"
+                >
+                    Email Us
+                </a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
