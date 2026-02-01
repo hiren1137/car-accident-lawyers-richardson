@@ -65,6 +65,18 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <script type="application/ld+json" set:html={JSON.stringify(s)} />
       ))
     }
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JGJNJ1N01"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-0JGJNJ1N01");
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
